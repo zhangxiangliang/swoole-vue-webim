@@ -1,8 +1,8 @@
 <?php
+namespace Lyon\Test\Library;
 
 use Lyon\Config;
-use PHPUnit\Framework\TestCase;
-use org\bovigo\vfs\vfsStream;
+use Lyon\Test\TestCase;
 
 class ConfigTest extends TestCase
 {
@@ -84,18 +84,11 @@ class ConfigTest extends TestCase
         unset($config['server']);
     }
 
-    private function createFileByFilenameAndContent($filename, $content)
-    {
-        $root = vfsStream::setup();
-        vfsStream::newFile($filename)->at($root)->setContent($content);
-        return $root->url();
-    }
-
     private function createConfigInstance()
     {
         $filename = 'server.php';
         $content = "<?php return ['port' => 9501];";
-        $this->dir = $this->createFileByFilenameAndContent($filename, $content);
+        $this->dir = $this->mockFile($filename, $content);
 
         $config = Config::instance();
         $config->setPath($this->dir);
