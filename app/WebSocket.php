@@ -14,23 +14,21 @@ class WebSocket
     const INIT_SELF_TYPE = 'self_init';
     const INIT_OTHER_TYPE = 'other_init';
     const COUNT_TYPE = 'count';
-    const CONFIG_PATH = __DIR__ . '/../config/';
 
     private $server;
     private $config;
     private $ip;
     private $port;
 
-    public function __construct()
+    public function __construct(Config $config)
     {
-        $this->makeConfig(self::CONFIG_PATH);
+        $this->makeConfig($config);
         $this->loadConfig(['ip', 'port']);
     }
 
-    protected function makeConfig($path)
+    protected function makeConfig($instance)
     {
-        $instance = Config::instance()->setPath($path);
-        $config = $instance['server'];
+        $this->config = $instance['server'];
     }
 
     protected function loadConfig($configs)
